@@ -9,7 +9,7 @@ def main(*args, **kwargs):
 
     print(f"Base path: {basepath}")
 
-    source_to_target("./static", "./public")
+    source_to_target("./static", "./docs")
     generate_pages_recursive("./content", "./template.html", "./docs", basepath)
 
 if __name__ == "__main__":

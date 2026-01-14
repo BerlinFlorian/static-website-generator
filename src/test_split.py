@@ -1,6 +1,6 @@
 import unittest
 from textnode import TextNode, TextType
-from split import split_nodes_delimiter, split_nodes_image, split_nodes_link
+from split import split_nodes_delimiter, split_nodes_image, split_nodes_link, extract_title
 
 class TestSplitNodes(unittest.TestCase):
     def test_split_nodes_delimiter_code(self):
@@ -60,6 +60,24 @@ class TestSplitNodes(unittest.TestCase):
             ],
             new_nodes,
         )
+
+    def test_extract_title(self):
+            self.assertEqual(extract_title("# Hello"), "Hello")
+            self.assertEqual(extract_title("#   Hello World   "), "Hello World")
+
+    def test_extract_title_multiline(self):
+            md = """
+    Other text
+    # Actual Title
+    More text
+    """
+            self.assertEqual(extract_title(md), "Actual Title")
+
+    def test_extract_title_exception(self):
+            with self.assertRaises(ValueError):
+                extract_title("## Only h2")
+            with self.assertRaises(ValueError):
+                extract_title("Just text")
 
 if __name__ == "__main__":
     unittest.main()

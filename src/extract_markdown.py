@@ -74,7 +74,7 @@ def create_heading_node(block):
         raise ValueError(f"Invalid heading level: {level}")
     text = block[level + 1 :]
     children = text_to_children(text)
-    return ParentNode(f"h{level}", children) 
+    return ParentNode(f"h{level}", children)
 
 def create_code_node(block):
     if not block.startswith("```") or not block.endswith("```"):
@@ -89,9 +89,8 @@ def create_quote_node(block):
     lines = block.split("\n")
     new_lines = []
     for line in lines:
-        if not line.startswith("> "):
-            raise ValueError("Invalid quote block")
-        new_lines.append(line[2:])
+        # On retire le '>' et on strip l'espace qui suit s'il existe
+        new_lines.append(line.lstrip(">").strip())
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
